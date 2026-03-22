@@ -1,0 +1,555 @@
+openapi: 3.0.3
+info:
+  title: Proxima Vehicle Specs
+  description: |
+    REST API with 15,000+ vehicle engine specifications covering cars, motorcycles, trucks, boats, aircraft, and more.
+
+    ## Features
+    - **15,000+ engine variants** across 100+ brands and 1,000+ models
+    - **Vehicle types**: car, motorcycle, truck, van, boat, airplane, aircraft, tractor, atv, snowmobile, supercar, racing, historic, camper
+    - **EU emission standards**: pre-euro, euro1 through euro6d, zero-emission
+    - **US emission tiers**: tier1, tier2, tier3, zero-emission
+    - **LEZ/ULEZ compliance** flag (Low Emission Zone — London ULEZ, Milan ZTL, Paris ZFE)
+    - **Aircraft data**: ICAO/IATA type codes, MTOW (Maximum Take-Off Weight in kg)
+    - **Filter by**: brand, model, year, fuel type, emission standard, LEZ compliance
+
+    ## Use Cases
+    - **Car configurators** — let users browse brands → models → engine variants
+    - **Insurance platforms** — fetch engine specs (hp, cc, fuel type) for premium calculation
+    - **Garage / workshop apps** — look up vehicles by brand/model for service records
+    - **LEZ / ULEZ compliance checkers** — verify if a vehicle can enter low emission zones in London, Milan, Paris
+    - **Fleet management** — filter by fuel type and emission standard across entire fleets
+    - **Aviation apps** — ICAO/IATA type codes and MTOW data for flight planning tools
+
+    ## Authentication
+    Pass your RapidAPI key via the `X-RapidAPI-Key` header (handled automatically by RapidAPI).
+  version: v1
+  contact:
+    name: Proxima Suite
+    url: https://proxima-suite.com
+externalDocs:
+  description: Live API — try it now
+  url: https://carspecs.proxima-suite.com/api/brands
+servers:
+  - url: https://carspecs.proxima-suite.com
+    description: Production
+
+x-tagGroups:
+  - name: Catalog
+    tags:
+      - Catalog
+  - name: Specs
+    tags:
+      - Specs
+
+tags:
+  - name: Catalog
+    description: Browse available brands and models
+  - name: Specs
+    description: Fetch engine specs, filter by emission standard, LEZ compliance, and more
+
+paths:
+  /api/brands:
+    get:
+      operationId: getBrands
+      summary: Get Brands
+      description: |
+        Returns all available vehicle brands, optionally filtered by vehicle type.
+
+        **Typical flow:** call this first to populate a brand selector, then call `/api/models` with the chosen brand.
+      tags:
+        - Catalog
+      x-code-samples:
+        - lang: JavaScript
+          label: JS / fetch
+          source: |
+            const options = {
+              method: 'GET',
+              headers: {
+                'X-RapidAPI-Key': 'YOUR_RAPIDAPI_KEY',
+                'X-RapidAPI-Host': 'proxima-vehicle-specs.p.rapidapi.com'
+              }
+            };
+            fetch('https://proxima-vehicle-specs.p.rapidapi.com/api/brands?vehicle_type=car', options)
+              .then(res => res.json())
+              .then(data => console.log(data))
+              .catch(err => console.error(err));
+        - lang: Python
+          label: Python / requests
+          source: |
+            import requests
+
+            url = "https://proxima-vehicle-specs.p.rapidapi.com/api/brands"
+            params = {"vehicle_type": "car"}
+            headers = {
+                "X-RapidAPI-Key": "YOUR_RAPIDAPI_KEY",
+                "X-RapidAPI-Host": "proxima-vehicle-specs.p.rapidapi.com"
+            }
+            response = requests.get(url, headers=headers, params=params)
+            print(response.json())
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X GET \
+              'https://proxima-vehicle-specs.p.rapidapi.com/api/brands?vehicle_type=car' \
+              -H 'X-RapidAPI-Key: YOUR_RAPIDAPI_KEY' \
+              -H 'X-RapidAPI-Host: proxima-vehicle-specs.p.rapidapi.com'
+      parameters:
+        - name: vehicle_type
+          in: query
+          required: false
+          description: Filter brands by vehicle type (e.g. car, motorcycle, truck, boat, airplane)
+          schema:
+            type: string
+            example: car
+      responses:
+        '200':
+          description: List of brands
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: toyota
+                    name:
+                      type: string
+                      example: Toyota
+              example:
+                - id: toyota
+                  name: Toyota
+                - id: bmw
+                  name: BMW
+        '500':
+          description: Server error
+
+  /api/models:
+    get:
+      operationId: getModels
+      summary: Get Models
+      description: |
+        Returns all models for a given brand, optionally filtered by vehicle type.
+
+        **Typical flow:** call after `/api/brands` — use the `id` from brands as the `brand` parameter here.
+      tags:
+        - Catalog
+      x-code-samples:
+        - lang: JavaScript
+          label: JS / fetch
+          source: |
+            const options = {
+              method: 'GET',
+              headers: {
+                'X-RapidAPI-Key': 'YOUR_RAPIDAPI_KEY',
+                'X-RapidAPI-Host': 'proxima-vehicle-specs.p.rapidapi.com'
+              }
+            };
+            fetch('https://proxima-vehicle-specs.p.rapidapi.com/api/models?brand=toyota&vehicle_type=car', options)
+              .then(res => res.json())
+              .then(data => console.log(data))
+              .catch(err => console.error(err));
+        - lang: Python
+          label: Python / requests
+          source: |
+            import requests
+
+            url = "https://proxima-vehicle-specs.p.rapidapi.com/api/models"
+            params = {"brand": "toyota", "vehicle_type": "car"}
+            headers = {
+                "X-RapidAPI-Key": "YOUR_RAPIDAPI_KEY",
+                "X-RapidAPI-Host": "proxima-vehicle-specs.p.rapidapi.com"
+            }
+            response = requests.get(url, headers=headers, params=params)
+            print(response.json())
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X GET \
+              'https://proxima-vehicle-specs.p.rapidapi.com/api/models?brand=toyota&vehicle_type=car' \
+              -H 'X-RapidAPI-Key: YOUR_RAPIDAPI_KEY' \
+              -H 'X-RapidAPI-Host: proxima-vehicle-specs.p.rapidapi.com'
+      parameters:
+        - name: brand
+          in: query
+          required: true
+          description: Brand ID (e.g. toyota, bmw, honda)
+          schema:
+            type: string
+            example: toyota
+        - name: vehicle_type
+          in: query
+          required: false
+          description: Filter by vehicle type
+          schema:
+            type: string
+            example: car
+      responses:
+        '200':
+          description: List of models
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: corolla
+                    name:
+                      type: string
+                      example: Corolla
+                    vehicle_type:
+                      type: string
+                      example: car
+        '400':
+          description: Missing required parameter
+        '500':
+          description: Server error
+
+  /api/engines:
+    get:
+      operationId: getEngines
+      summary: Get Engines
+      description: |
+        Returns all engine variants for a given brand and model, optionally filtered by year and fuel type.
+
+        Each engine includes: horsepower, displacement (cc), fuel type, production years, body type, EU/US emission standard, LEZ compliance flag, and ICAO/MTOW data for aircraft.
+
+        **Use case:** insurance premium calculation, vehicle configurators, garage/workshop apps, LEZ compliance checks.
+      tags:
+        - Specs
+      x-code-samples:
+        - lang: JavaScript
+          label: JS / fetch
+          source: |
+            const options = {
+              method: 'GET',
+              headers: {
+                'X-RapidAPI-Key': 'YOUR_RAPIDAPI_KEY',
+                'X-RapidAPI-Host': 'proxima-vehicle-specs.p.rapidapi.com'
+              }
+            };
+            // Get all diesel engines for Toyota Corolla produced in 2020
+            fetch('https://proxima-vehicle-specs.p.rapidapi.com/api/engines?brand=toyota&model=corolla&year=2020&fuel_type=diesel', options)
+              .then(res => res.json())
+              .then(data => console.log(data))
+              .catch(err => console.error(err));
+        - lang: Python
+          label: Python / requests
+          source: |
+            import requests
+
+            url = "https://proxima-vehicle-specs.p.rapidapi.com/api/engines"
+            params = {
+                "brand": "toyota",
+                "model": "corolla",
+                "year": 2020,
+                "fuel_type": "diesel"
+            }
+            headers = {
+                "X-RapidAPI-Key": "YOUR_RAPIDAPI_KEY",
+                "X-RapidAPI-Host": "proxima-vehicle-specs.p.rapidapi.com"
+            }
+            response = requests.get(url, headers=headers, params=params)
+            for engine in response.json():
+                print(f"{engine['engine_name']} — {engine['hp']}hp — {engine['emission_eu']}")
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X GET \
+              'https://proxima-vehicle-specs.p.rapidapi.com/api/engines?brand=toyota&model=corolla&year=2020&fuel_type=diesel' \
+              -H 'X-RapidAPI-Key: YOUR_RAPIDAPI_KEY' \
+              -H 'X-RapidAPI-Host: proxima-vehicle-specs.p.rapidapi.com'
+      parameters:
+        - name: brand
+          in: query
+          required: true
+          description: Brand ID (e.g. toyota, bmw, honda)
+          schema:
+            type: string
+            example: toyota
+        - name: model
+          in: query
+          required: true
+          description: Model ID (e.g. corolla, 3series)
+          schema:
+            type: string
+            example: corolla
+        - name: year
+          in: query
+          required: false
+          description: Filter engines available in this year (e.g. 2020)
+          schema:
+            type: integer
+            example: 2020
+        - name: fuel_type
+          in: query
+          required: false
+          description: Filter by fuel type (petrol, diesel, electric, hybrid, lpg, cng, hydrogen)
+          schema:
+            type: string
+            example: diesel
+      responses:
+        '200':
+          description: List of engine variants
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Engine'
+              example:
+                - id: 42
+                  engine_name: 2.0 TDI 150hp
+                  hp: 150
+                  cc: 1984
+                  fuel_type: diesel
+                  year_start: 2015
+                  year_end: 2020
+                  body_type: sedan
+                  emission_eu: euro6
+                  emission_us: null
+                  is_low_emission_zone_compliant: true
+                  icao_type: null
+                  iata_type: null
+                  mtow_kg: null
+        '400':
+          description: Missing required parameters
+        '500':
+          description: Server error
+
+  /api/search:
+    get:
+      operationId: searchSpecs
+      summary: Search Specs
+      description: |
+        Full-text search across brand names, model names, and engine names.
+        Supports filtering by vehicle type, EU emission standard, and LEZ compliance.
+
+        **Power filters:**
+        - `emission_eu=euro6` → only Euro 6 engines (easiest London ULEZ / Milan ZTL pass)
+        - `is_lez_compliant=true` → pre-filtered LEZ/ULEZ compliant results
+        - `vehicle_type=motorcycle` → scope search to a specific vehicle category
+
+        **Use case:** smart search bar in vehicle apps, fleet compliance dashboards, LEZ zone entry checkers.
+      tags:
+        - Specs
+      x-code-samples:
+        - lang: JavaScript
+          label: JS / fetch
+          source: |
+            const options = {
+              method: 'GET',
+              headers: {
+                'X-RapidAPI-Key': 'YOUR_RAPIDAPI_KEY',
+                'X-RapidAPI-Host': 'proxima-vehicle-specs.p.rapidapi.com'
+              }
+            };
+            // Search for LEZ-compliant BMW diesels
+            fetch('https://proxima-vehicle-specs.p.rapidapi.com/api/search?q=bmw+diesel&emission_eu=euro6&is_lez_compliant=true', options)
+              .then(res => res.json())
+              .then(data => console.log(data))
+              .catch(err => console.error(err));
+        - lang: Python
+          label: Python / requests
+          source: |
+            import requests
+
+            url = "https://proxima-vehicle-specs.p.rapidapi.com/api/search"
+            params = {
+                "q": "bmw diesel",
+                "emission_eu": "euro6",
+                "is_lez_compliant": "true",
+                "limit": 20
+            }
+            headers = {
+                "X-RapidAPI-Key": "YOUR_RAPIDAPI_KEY",
+                "X-RapidAPI-Host": "proxima-vehicle-specs.p.rapidapi.com"
+            }
+            response = requests.get(url, headers=headers, params=params)
+            for r in response.json():
+                print(f"{r['brand_name']} {r['model_name']} — {r['engine_name']} — LEZ: {r['is_low_emission_zone_compliant']}")
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X GET \
+              'https://proxima-vehicle-specs.p.rapidapi.com/api/search?q=bmw+diesel&emission_eu=euro6&is_lez_compliant=true' \
+              -H 'X-RapidAPI-Key: YOUR_RAPIDAPI_KEY' \
+              -H 'X-RapidAPI-Host: proxima-vehicle-specs.p.rapidapi.com'
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: Search query (searches brand, model, and engine name)
+          schema:
+            type: string
+            example: corolla diesel
+        - name: vehicle_type
+          in: query
+          required: false
+          description: Filter by vehicle type (car, motorcycle, truck, van, boat, airplane, aircraft, etc.)
+          schema:
+            type: string
+            example: car
+        - name: emission_eu
+          in: query
+          required: false
+          description: Filter by EU emission standard (pre-euro, euro1, euro2, euro3, euro4, euro5, euro6, euro6c, euro6d-temp, euro6d, zero-emission)
+          schema:
+            type: string
+            example: euro6
+        - name: is_lez_compliant
+          in: query
+          required: false
+          description: Filter by Low Emission Zone compliance. true = LEZ compliant, false = not compliant
+          schema:
+            type: string
+            enum:
+              - 'true'
+              - 'false'
+            example: 'true'
+        - name: limit
+          in: query
+          required: false
+          description: Maximum number of results to return (default 20, max 100)
+          schema:
+            type: integer
+            default: 20
+            example: 20
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SearchResult'
+        '400':
+          description: Missing required parameter q
+        '500':
+          description: Server error
+
+components:
+  schemas:
+    Engine:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique engine ID
+          example: 42
+        engine_name:
+          type: string
+          description: Engine variant name
+          example: 2.0 TDI 150hp
+        hp:
+          type: integer
+          description: Horsepower
+          example: 150
+        cc:
+          type: integer
+          description: Engine displacement in cc (null for electric)
+          example: 1984
+        fuel_type:
+          type: string
+          description: Fuel type
+          example: diesel
+        year_start:
+          type: integer
+          description: Production start year
+          example: 2015
+        year_end:
+          type: integer
+          nullable: true
+          description: Production end year (null = still in production)
+          example: 2020
+        body_type:
+          type: string
+          nullable: true
+          description: Body style
+          example: sedan
+        emission_eu:
+          type: string
+          nullable: true
+          description: EU emission standard (pre-euro, euro1–euro6d, zero-emission)
+          example: euro6
+        emission_us:
+          type: string
+          nullable: true
+          description: US emission tier (tier1, tier2, tier3, zero-emission)
+          example: tier3
+        is_low_emission_zone_compliant:
+          type: boolean
+          nullable: true
+          description: Whether this engine is compliant with European Low Emission Zones (ULEZ London, ZTL Milan, ZFE Paris). Null for off-road/aircraft/marine vehicles where LEZ is not applicable.
+          example: true
+        icao_type:
+          type: string
+          nullable: true
+          description: ICAO aircraft type designator (aircraft only, e.g. B738, A320, C172)
+          example: B738
+        iata_type:
+          type: string
+          nullable: true
+          description: IATA aircraft type code (aircraft only, e.g. 738, 320, 172)
+          example: '738'
+        mtow_kg:
+          type: integer
+          nullable: true
+          description: Maximum Take-Off Weight in kilograms (aircraft only)
+          example: 79016
+
+    SearchResult:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 42
+        brand_id:
+          type: string
+          example: toyota
+        brand_name:
+          type: string
+          example: Toyota
+        model_id:
+          type: string
+          example: corolla
+        model_name:
+          type: string
+          example: Corolla
+        engine_name:
+          type: string
+          example: 2.0 TDI 150hp
+        hp:
+          type: integer
+          example: 150
+        fuel_type:
+          type: string
+          example: diesel
+        year_start:
+          type: integer
+          example: 2015
+        year_end:
+          type: integer
+          nullable: true
+          example: 2020
+        vehicle_type:
+          type: string
+          example: car
+        emission_eu:
+          type: string
+          nullable: true
+          example: euro6
+        emission_us:
+          type: string
+          nullable: true
+          example: tier3
+        is_low_emission_zone_compliant:
+          type: boolean
+          nullable: true
+          example: true
