@@ -10,9 +10,10 @@ ALTER TABLE vehicle_specs
   ADD COLUMN IF NOT EXISTS max_speed         SMALLINT      DEFAULT NULL,
   ADD COLUMN IF NOT EXISTS speed_unit        VARCHAR(6)    DEFAULT NULL,
   -- Campi aviazione (solo airplane / aircraft)
-  ADD COLUMN IF NOT EXISTS icao_type         VARCHAR(4)    DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS iata_type         VARCHAR(3)    DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS mtow_kg           INTEGER       DEFAULT NULL;
+  ADD COLUMN IF NOT EXISTS icao_type                      VARCHAR(4)    DEFAULT NULL,
+  ADD COLUMN IF NOT EXISTS iata_type                      VARCHAR(3)    DEFAULT NULL,
+  ADD COLUMN IF NOT EXISTS mtow_kg                        INTEGER       DEFAULT NULL,
+  ADD COLUMN IF NOT EXISTS is_low_emission_zone_compliant BOOLEAN       DEFAULT NULL;
 
 -- emission_eu   : 'pre-euro','euro1','euro2','euro3','euro4','euro5','euro6','euro6d','zero-emission'
 -- emission_us   : 'pre-tier','tier1','tier2','tier3','zero-emission'
@@ -34,3 +35,4 @@ COMMENT ON COLUMN vehicle_specs.speed_unit       IS 'Unità velocità: km/h, mph
 COMMENT ON COLUMN vehicle_specs.icao_type        IS 'Codice tipo aeromobile ICAO Doc 8643 (4 car). Es: B738, A320, C172. Solo airplane/aircraft.';
 COMMENT ON COLUMN vehicle_specs.iata_type        IS 'Codice tipo aeromobile IATA (3 car). Es: 738, 320, 172. Solo airplane/aircraft.';
 COMMENT ON COLUMN vehicle_specs.mtow_kg          IS 'Maximum Take-Off Weight in kg (dato certificato FAA/EASA). Solo airplane/aircraft/drone. NULL per veicoli terrestri/navali.';
+COMMENT ON COLUMN vehicle_specs.is_low_emission_zone_compliant IS 'TRUE se il veicolo soddisfa i requisiti LEZ/ZTL più restrittivi EU (Euro6+ auto/truck, Euro3+ moto). NULL per mezzi non terrestri, trattori, ATV.';
