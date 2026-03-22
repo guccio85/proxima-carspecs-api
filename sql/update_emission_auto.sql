@@ -3,6 +3,9 @@
 -- ESCLUSI: boat, airplane, aircraft (nessuno standard Euro/Tier applicabile)
 -- ESEGUIRE DOPO migration_emission_fields.sql
 
+-- Fix colonna emisison_eu se già creata come VARCHAR(10) (valori come 'zero-emission' = 13 chars)
+ALTER TABLE vehicle_specs ALTER COLUMN emission_eu TYPE VARCHAR(20);
+
 -- ============================================================
 -- ELECTRIC / HYBRID → zero-emission (tutti i veicoli terrestri)
 -- ============================================================

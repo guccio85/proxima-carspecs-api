@@ -3,7 +3,7 @@
 -- Eseguire in Supabase SQL Editor
 
 ALTER TABLE vehicle_specs
-  ADD COLUMN IF NOT EXISTS emission_eu       VARCHAR(10)   DEFAULT NULL,
+  ADD COLUMN IF NOT EXISTS emission_eu       VARCHAR(20)   DEFAULT NULL,
   ADD COLUMN IF NOT EXISTS emission_us       VARCHAR(20)   DEFAULT NULL,
   ADD COLUMN IF NOT EXISTS consumption       DECIMAL(5,2)  DEFAULT NULL,
   ADD COLUMN IF NOT EXISTS consumption_unit  VARCHAR(10)   DEFAULT NULL,
