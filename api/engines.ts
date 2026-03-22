@@ -10,7 +10,9 @@ import { getSupabase } from './_lib/supabase';
  *   year       (optional) — filtra motorizzazioni prodotte in quell'anno
  *   fuel_type  (optional) — "gasoline" | "diesel" | "electric" | "hybrid" | ...
  *
- * Response: [{ id, engine_name, hp, cc, fuel_type, year_start, year_end, body_type }]
+ * Response: [{ id, engine_name, hp, cc, fuel_type, year_start, year_end, body_type,
+ *              emission_eu, emission_us, is_low_emission_zone_compliant,
+ *              icao_type, iata_type, mtow_kg }]
  */
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method === 'OPTIONS') return res.status(200).end();
@@ -23,7 +25,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const supabase = getSupabase();
   let query = supabase
     .from('vehicle_specs')
-    .select('id, engine_name, hp, cc, fuel_type, year_start, year_end, body_type')
+    .select('id, engine_name, hp, cc, fuel_type, year_start, year_end, body_type, emission_eu, emission_us, is_low_emission_zone_compliant, icao_type, iata_type, mtow_kg')
     .eq('brand_id', brand as string)
     .eq('model_id', model as string)
     .order('year_start', { ascending: true })
