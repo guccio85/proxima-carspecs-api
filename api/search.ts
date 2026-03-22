@@ -9,6 +9,9 @@ import { getSupabase } from './_lib/supabase';
  *   vehicle_type        (optional) — "car" | "motorcycle" | "boat" | ...
  *   emission_eu         (optional) — "euro6" | "euro6d" | "euro5" | ... filtra per standard emissioni EU
  *   is_lez_compliant    (optional) — "true" | "false" — filtra veicoli conformi/non conformi a LEZ/ZTL
+ *   fuel_type           (optional) — "petrol" | "diesel" | "electric" | "hybrid" | ...
+ *   hp_min              (optional) — potenza minima (es. 200)
+ *   hp_max              (optional) — potenza massima (es. 500)
  *   limit               (optional) — default 20, max 100
  *
  * Response: [{ id, brand_id, brand_name, model_id, model_name, engine_name, hp, cc,
@@ -19,7 +22,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { q, vehicle_type, emission_eu, is_lez_compliant, limit = '20' } = req.query;
+  const { q, vehicle_type, emission_eu, is_lez_compliant, fuel_type, hp_min, hp_max, limit = '20' } = req.query;
   if (!q || !(q as string).trim()) {
     return res.status(400).json({ error: 'Missing required param: q' });
   }
@@ -35,8 +38,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (vehicle_type)                      query = query.eq('vehicle_type', vehicle_type as string);
   if (emission_eu)                       query = query.eq('emission_eu', emission_eu as string);
+  if (fuel_type)                         query = query.eq('fuel_type', fuel_type as string);
   if (is_lez_compliant === 'true')       query = query.eq('is_low_emission_zone_compliant', true);
   if (is_lez_compliant === 'false')      query = query.eq('is_low_emission_zone_compliant', false);
+  if (hp_min)                            query = query.gte('hp', parseInt(hp_min as string, 10));
+  if (hp_max)                            query = query.lte('hp', parseInt(hp_max as string, 10));
 
   const { data, error } = await query;
 

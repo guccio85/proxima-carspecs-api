@@ -498,7 +498,14 @@ paths:
         - `is_lez_compliant=true` → pre-filtered LEZ/ULEZ compliant results
         - `vehicle_type=motorcycle` → scope search to a specific vehicle category
 
-        **Use case:** smart search bar in vehicle apps, fleet compliance dashboards, LEZ zone entry checkers.
+        **Power filters:**
+        - `hp_min=200&hp_max=500` → engines between 200 and 500hp
+        - `fuel_type=electric` → only electric engines
+        - `emission_eu=euro6` → only Euro 6 engines (easiest London ULEZ / Milan ZTL pass)
+        - `is_lez_compliant=true` → pre-filtered LEZ/ULEZ compliant results
+        - `vehicle_type=motorcycle` → scope search to a specific vehicle category
+
+        **Use case:** smart search bar in vehicle apps, fleet compliance dashboards, LEZ zone entry checkers, performance car finders.
       tags:
         - Specs
       x-code-samples:
@@ -512,8 +519,8 @@ paths:
                 'X-RapidAPI-Host': 'proxima-vehicle-specs.p.rapidapi.com'
               }
             };
-            // Search for LEZ-compliant BMW diesels
-            fetch('https://proxima-vehicle-specs.p.rapidapi.com/api/search?q=bmw+diesel&emission_eu=euro6&is_lez_compliant=true', options)
+            // Search for high-performance BMW petrol engines (200–500hp)
+            fetch('https://proxima-vehicle-specs.p.rapidapi.com/api/search?q=bmw&fuel_type=petrol&hp_min=200&hp_max=500', options)
               .then(res => res.json())
               .then(data => console.log(data))
               .catch(err => console.error(err));
@@ -565,6 +572,27 @@ paths:
           schema:
             type: string
             example: euro6
+        - name: fuel_type
+          in: query
+          required: false
+          description: Filter by fuel type (petrol, diesel, electric, hybrid, lpg, cng, hydrogen)
+          schema:
+            type: string
+            example: electric
+        - name: hp_min
+          in: query
+          required: false
+          description: Minimum horsepower (inclusive)
+          schema:
+            type: integer
+            example: 200
+        - name: hp_max
+          in: query
+          required: false
+          description: Maximum horsepower (inclusive)
+          schema:
+            type: integer
+            example: 500
         - name: is_lez_compliant
           in: query
           required: false

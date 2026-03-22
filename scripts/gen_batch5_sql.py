@@ -1,0 +1,191 @@
+#!/usr/bin/env python3
+"""Genera sql/batch5_aliases.sql — ~185 righe
+Brand: Mercedes-Benz, Smart EV, Polestar, Jaguar, Bentley, DS Automobiles, Pagani, NIO
+"""
+
+rows = [
+    # ─── MERCEDES-BENZ — Classe C W206 (2022+) ─────────────────────────────
+    ("mercedes","Mercedes-Benz","Germany","mb_c_w206","Classe C (W206 — 2022+)","berlina",2022,2026,"1.5T C 200 204cv MHEV",204,1497,"mild_hybrid","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_c_w206","Classe C (W206 — 2022+)","berlina",2022,2026,"2.0T C 300 258cv MHEV",258,1993,"mild_hybrid","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_c_w206","Classe C (W206 — 2022+)","berlina",2022,2026,"2.0T C 300e 313cv PHEV",313,1993,"plug_in_hybrid","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_c_w206","Classe C (W206 — 2022+)","berlina",2022,2026,"2.0 C 220d 200cv Diesel",200,1993,"diesel","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_c_w206","Classe C (W206 — 2022+)","berlina",2022,2026,"2.0 C 300d 265cv Diesel",265,1993,"diesel","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_c_w206","Classe C (W206 — 2022+)","berlina",2022,2026,"2.0T AMG C 63 E Performance 680cv PHEV",680,1993,"plug_in_hybrid","car","Germany"),
+
+    # ─── MERCEDES-BENZ — Classe E W214 (2024+) ─────────────────────────────
+    ("mercedes","Mercedes-Benz","Germany","mb_e_w214","Classe E (W214 — 2024+)","berlina",2024,2026,"2.0T E 200 204cv MHEV",204,1999,"mild_hybrid","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_e_w214","Classe E (W214 — 2024+)","berlina",2024,2026,"2.0T E 300 258cv MHEV",258,1999,"mild_hybrid","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_e_w214","Classe E (W214 — 2024+)","berlina",2024,2026,"2.0T E 300e 313cv PHEV",313,1999,"plug_in_hybrid","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_e_w214","Classe E (W214 — 2024+)","berlina",2024,2026,"2.0 E 220d 197cv Diesel",197,1993,"diesel","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_e_w214","Classe E (W214 — 2024+)","berlina",2024,2026,"2.0 E 300d 265cv Diesel",265,1993,"diesel","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_e_w214","Classe E (W214 — 2024+)","berlina",2024,2026,"3.0T AMG E 53 4MATIC+ 449cv PHEV",449,2999,"plug_in_hybrid","car","Germany"),
+
+    # ─── MERCEDES-BENZ — Classe S W223 (2021+) ─────────────────────────────
+    ("mercedes","Mercedes-Benz","Germany","mb_s_w223","Classe S (W223 — 2021+)","berlina",2021,2026,"3.0T S 450 367cv MHEV 4MATIC",367,2999,"mild_hybrid","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_s_w223","Classe S (W223 — 2021+)","berlina",2021,2026,"4.0 V8 S 580 503cv 4MATIC",503,3982,"gasoline","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_s_w223","Classe S (W223 — 2021+)","berlina",2021,2026,"3.0T S 500e 449cv PHEV",449,2999,"plug_in_hybrid","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_s_w223","Classe S (W223 — 2021+)","berlina",2021,2026,"6.0 V12 Maybach S 680 612cv",612,5980,"gasoline","car","Germany"),
+
+    # ─── MERCEDES-BENZ — GLC X254 (2023+) ──────────────────────────────────
+    ("mercedes","Mercedes-Benz","Germany","mb_glc_x254","GLC (X254 — 2023+)","suv",2023,2026,"2.0T GLC 300 258cv MHEV 4MATIC",258,1993,"mild_hybrid","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_glc_x254","GLC (X254 — 2023+)","suv",2023,2026,"2.0T GLC 300e 313cv PHEV 4MATIC",313,1993,"plug_in_hybrid","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_glc_x254","GLC (X254 — 2023+)","suv",2023,2026,"2.0 GLC 220d 197cv 4MATIC",197,1993,"diesel","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_glc_x254","GLC (X254 — 2023+)","suv",2023,2026,"2.0 GLC 300d 265cv 4MATIC",265,1993,"diesel","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_glc_x254","GLC (X254 — 2023+)","suv",2023,2026,"2.0T AMG GLC 63 S E Performance 680cv PHEV",680,1993,"plug_in_hybrid","car","Germany"),
+
+    # ─── MERCEDES-BENZ — GLE W167 (2019+) ──────────────────────────────────
+    ("mercedes","Mercedes-Benz","Germany","mb_gle_w167","GLE (W167 — 2019+)","suv",2019,2026,"3.0T GLE 450 367cv MHEV 4MATIC",367,2999,"mild_hybrid","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_gle_w167","GLE (W167 — 2019+)","suv",2019,2026,"3.0T GLE 350e 320cv PHEV 4MATIC",320,2999,"plug_in_hybrid","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_gle_w167","GLE (W167 — 2019+)","suv",2019,2026,"2.0 GLE 300d 245cv 4MATIC",245,1950,"diesel","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_gle_w167","GLE (W167 — 2019+)","suv",2019,2026,"3.0 GLE 350d 272cv 4MATIC",272,2925,"diesel","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_gle_w167","GLE (W167 — 2019+)","suv",2019,2026,"4.0 V8 AMG GLE 63 S 612cv 4MATIC+",612,3982,"gasoline","car","Germany"),
+
+    # ─── MERCEDES-BENZ — Classe A W177 (2018+) ─────────────────────────────
+    ("mercedes","Mercedes-Benz","Germany","mb_a_w177","Classe A (W177 — 2018+)","hatchback",2018,2026,"1.3T A 180 136cv",136,1332,"gasoline","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_a_w177","Classe A (W177 — 2018+)","hatchback",2018,2026,"2.0T A 200 163cv",163,1991,"gasoline","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_a_w177","Classe A (W177 — 2018+)","hatchback",2018,2026,"2.0T AMG A 35 306cv 4MATIC",306,1991,"gasoline","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_a_w177","Classe A (W177 — 2018+)","hatchback",2018,2026,"2.0T AMG A 45 S 421cv 4MATIC+",421,1991,"gasoline","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_a_w177","Classe A (W177 — 2018+)","hatchback",2018,2026,"2.0 A 200d 150cv Diesel",150,1950,"diesel","car","Germany"),
+
+    # ─── MERCEDES-BENZ — Classe G W463 (2018+) ─────────────────────────────
+    ("mercedes","Mercedes-Benz","Germany","mb_g_w463","Classe G (W463 — 2018+)","offroad",2018,2026,"4.0 V8 G 500 422cv",422,3982,"gasoline","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_g_w463","Classe G (W463 — 2018+)","offroad",2018,2026,"4.0 V8 AMG G 63 585cv",585,3982,"gasoline","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_g_w463","Classe G (W463 — 2018+)","offroad",2024,2026,"Elettrico AWD G 580 EQ 587cv",587,None,"electric","car","Germany"),
+
+    # ─── MERCEDES-BENZ — AMG GT (4-porte / Coupé) ──────────────────────────
+    ("mercedes","Mercedes-Benz","Germany","mb_amg_gt","AMG GT 4-porte / GT Coupé","coupé",2018,2026,"3.0T AMG GT 43 367cv 4MATIC+",367,2999,"mild_hybrid","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_amg_gt","AMG GT 4-porte / GT Coupé","coupé",2018,2026,"3.0T AMG GT 53 435cv 4MATIC+",435,2999,"mild_hybrid","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_amg_gt","AMG GT 4-porte / GT Coupé","coupé",2019,2026,"4.0 V8 AMG GT 63 S 630cv 4MATIC+",630,3982,"gasoline","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_amg_gt","AMG GT 4-porte / GT Coupé","coupé",2023,2026,"4.0 V8 AMG GT 63 S E Performance 843cv PHEV",843,3982,"plug_in_hybrid","car","Germany"),
+
+    # ─── MERCEDES-BENZ — EQS (sedan BEV) ───────────────────────────────────
+    ("mercedes","Mercedes-Benz","Germany","mb_eqs","EQS 450+ / 580 4MATIC","berlina",2021,2026,"Elettrico RWD 333cv EQS 450+",333,None,"electric","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_eqs","EQS 450+ / 580 4MATIC","berlina",2021,2026,"Elettrico AWD 523cv EQS 580 4MATIC",523,None,"electric","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_eqs","EQS 450+ / 580 4MATIC","berlina",2022,2026,"Elettrico AWD 761cv AMG EQS 53 4MATIC+",761,None,"electric","car","Germany"),
+
+    # ─── MERCEDES-BENZ — EQC (SUV BEV) ─────────────────────────────────────
+    ("mercedes","Mercedes-Benz","Germany","mb_eqc","EQC 400 4MATIC","suv",2019,2023,"Elettrico AWD 408cv EQC 400",408,None,"electric","car","Germany"),
+
+    # ─── MERCEDES-BENZ — EQA ────────────────────────────────────────────────
+    ("mercedes","Mercedes-Benz","Germany","mb_eqa_h243","EQA (H243 — 2021+)","suv",2021,2026,"Elettrico FWD 190cv EQA 250",190,None,"electric","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_eqa_h243","EQA (H243 — 2021+)","suv",2021,2026,"Elettrico AWD 292cv EQA 350 4MATIC",292,None,"electric","car","Germany"),
+
+    # ─── MERCEDES-BENZ — SL R232 (2022+) ───────────────────────────────────
+    ("mercedes","Mercedes-Benz","Germany","mb_sl_r232","SL (R232 — 2022+)","decapottabile",2022,2026,"3.0T SL 43 381cv AMG",381,2999,"mild_hybrid","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_sl_r232","SL (R232 — 2022+)","decapottabile",2022,2026,"4.0 V8 SL 55 AMG 476cv",476,3982,"gasoline","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_sl_r232","SL (R232 — 2022+)","decapottabile",2022,2026,"4.0 V8 SL 63 AMG 585cv",585,3982,"gasoline","car","Germany"),
+
+    # ─── MERCEDES-BENZ — CLA C118 (2ª gen) ─────────────────────────────────
+    ("mercedes","Mercedes-Benz","Germany","mb_cla2","CLA (C118 — 2ª gen)","coupé",2019,2026,"1.3T CLA 200 163cv",163,1332,"gasoline","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_cla2","CLA (C118 — 2ª gen)","coupé",2019,2026,"2.0T AMG CLA 35 306cv 4MATIC",306,1991,"gasoline","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_cla2","CLA (C118 — 2ª gen)","coupé",2019,2026,"2.0T AMG CLA 45 S 421cv 4MATIC+",421,1991,"gasoline","car","Germany"),
+
+    # ─── MERCEDES-BENZ — GLB X247 ───────────────────────────────────────────
+    ("mercedes","Mercedes-Benz","Germany","mb_glb_x247","GLB (X247 — 2019+)","suv",2020,2026,"1.3T GLB 200 163cv",163,1332,"gasoline","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_glb_x247","GLB (X247 — 2019+)","suv",2020,2026,"2.0T GLB 250 224cv 4MATIC",224,1991,"gasoline","car","Germany"),
+    ("mercedes","Mercedes-Benz","Germany","mb_glb_x247","GLB (X247 — 2019+)","suv",2020,2026,"2.0 GLB 220d 190cv 4MATIC",190,1950,"diesel","car","Germany"),
+
+    # ─── SMART ──────────────────────────────────────────────────────────────
+    ("smart","Smart","Germany","smart_1","smart #1 (BEV — 2023+)","suv",2023,2026,"Elettrico RWD 272cv Premium",272,None,"electric","car","Germany"),
+    ("smart","Smart","Germany","smart_1","smart #1 (BEV — 2023+)","suv",2023,2026,"Elettrico AWD 428cv BRABUS",428,None,"electric","car","Germany"),
+    ("smart","Smart","Germany","smart_3","smart #3 (BEV SUV Coupé — 2023+)","suv",2023,2026,"Elettrico RWD 272cv Pro+",272,None,"electric","car","Germany"),
+    ("smart","Smart","Germany","smart_3","smart #3 (BEV SUV Coupé — 2023+)","suv",2023,2026,"Elettrico AWD 428cv BRABUS",428,None,"electric","car","Germany"),
+    ("smart","Smart","Germany","smart_fortwo_w453","smart fortwo (W453 — 2014–2023)","city car",2014,2023,"0.9T 90cv turbo",90,898,"gasoline","car","Germany"),
+    ("smart","Smart","Germany","smart_fortwo_w453","smart fortwo (W453 — 2014–2023)","city car",2017,2023,"Elettrico 82cv fortwo EQ",82,None,"electric","car","Germany"),
+
+    # ─── POLESTAR ───────────────────────────────────────────────────────────
+    ("polestar","Polestar","Sweden","polestar_2","Polestar 2 (BEV)","berlina",2021,2026,"Elettrico RWD 231cv Standard Range",231,None,"electric","car","Sweden"),
+    ("polestar","Polestar","Sweden","polestar_2","Polestar 2 (BEV)","berlina",2021,2026,"Elettrico RWD 299cv Long Range",299,None,"electric","car","Sweden"),
+    ("polestar","Polestar","Sweden","polestar_2","Polestar 2 (BEV)","berlina",2021,2026,"Elettrico AWD 476cv Long Range Dual Motor",476,None,"electric","car","Sweden"),
+    ("polestar","Polestar","Sweden","polestar_3","Polestar 3 (SUV BEV 2024+)","suv",2024,2026,"Elettrico AWD 517cv Long Range Dual Motor",517,None,"electric","car","Sweden"),
+    ("polestar","Polestar","Sweden","polestar_3","Polestar 3 (SUV BEV 2024+)","suv",2024,2026,"Elettrico AWD 517cv Performance Pack",517,None,"electric","car","Sweden"),
+    ("polestar","Polestar","Sweden","polestar_4","Polestar 4 (SUV Coupé BEV 2024+)","suv",2024,2026,"Elettrico RWD 272cv Standard Range",272,None,"electric","car","Sweden"),
+    ("polestar","Polestar","Sweden","polestar_4","Polestar 4 (SUV Coupé BEV 2024+)","suv",2024,2026,"Elettrico AWD 544cv Long Range Dual Motor",544,None,"electric","car","Sweden"),
+    ("polestar","Polestar","Sweden","polestar_1","Polestar 1 (PHEV GT Coupé)","coupé",2020,2022,"2.0T PHEV 619cv Hybrid",619,1969,"plug_in_hybrid","car","Sweden"),
+
+    # ─── JAGUAR ─────────────────────────────────────────────────────────────
+    ("jaguar","Jaguar","UK","jaguar_ipace","I-PACE (EV400)","suv",2018,2026,"Elettrico AWD 400cv EV400",400,None,"electric","car","UK"),
+    ("jaguar","Jaguar","UK","jaguar_ipace","I-PACE (EV400)","suv",2021,2026,"Elettrico AWD 400cv EV400 SE facelift",400,None,"electric","car","UK"),
+    ("jaguar","Jaguar","UK","jaguar_f_pace","F-PACE (X761 facelift)","suv",2021,2026,"2.0T P250 250cv R-Dynamic",250,1997,"gasoline","car","UK"),
+    ("jaguar","Jaguar","UK","jaguar_f_pace","F-PACE (X761 facelift)","suv",2021,2026,"2.0T P400e 404cv PHEV AWD",404,1997,"plug_in_hybrid","car","UK"),
+    ("jaguar","Jaguar","UK","jaguar_f_pace","F-PACE (X761 facelift)","suv",2021,2026,"3.0 P400 AWD 400cv",400,2996,"mild_hybrid","car","UK"),
+    ("jaguar","Jaguar","UK","jaguar_fpace_svr","F-PACE SVR (5.0 SC V8)","suv",2021,2026,"5.0 Supercharged V8 550cv SVR",550,4999,"gasoline","car","UK"),
+    ("jaguar","Jaguar","UK","jaguar_f_type","F-TYPE (X152 facelift)","coupé",2020,2024,"2.0T P300 300cv RWD",300,1997,"gasoline","car","UK"),
+    ("jaguar","Jaguar","UK","jaguar_f_type","F-TYPE (X152 facelift)","coupé",2020,2024,"3.0 P450 450cv SC V6 AWD",450,2995,"gasoline","car","UK"),
+    ("jaguar","Jaguar","UK","jaguar_ftype_r","F-TYPE R (5.0 SC V8)","coupé",2020,2024,"5.0 Supercharged V8 575cv R AWD",575,4999,"gasoline","car","UK"),
+    ("jaguar","Jaguar","UK","jaguar_ftype_final_edition","F-TYPE R75 Final Edition","coupé",2023,2024,"5.0 Supercharged V8 575cv R75",575,4999,"gasoline","car","UK"),
+    ("jaguar","Jaguar","UK","jaguar_xe_facelift","XE (X760 facelift)","berlina",2019,2024,"2.0T P250 250cv",250,1997,"gasoline","car","UK"),
+    ("jaguar","Jaguar","UK","jaguar_xe_facelift","XE (X760 facelift)","berlina",2019,2024,"2.0 D180 180cv Diesel",180,1997,"diesel","car","UK"),
+    ("jaguar","Jaguar","UK","jaguar_xf_facelift","XF (X260 facelift)","berlina",2020,2024,"2.0T P300 300cv AWD",300,1997,"gasoline","car","UK"),
+    ("jaguar","Jaguar","UK","jaguar_xf_facelift","XF (X260 facelift)","berlina",2020,2024,"2.0 D200 204cv AWD Diesel",204,1997,"diesel","car","UK"),
+
+    # ─── BENTLEY ────────────────────────────────────────────────────────────
+    ("bentley","Bentley","UK","bentley_continental_gt3","Continental GT (3ª gen)","coupé",2018,2026,"4.0 V8 550cv",550,3996,"gasoline","car","UK"),
+    ("bentley","Bentley","UK","bentley_continental_gt3","Continental GT (3ª gen)","coupé",2018,2026,"6.0 W12 635cv Speed",635,5950,"gasoline","car","UK"),
+    ("bentley","Bentley","UK","bentley_continental_gt3","Continental GT (3ª gen)","coupé",2021,2026,"4.0 V8 PHEV 456cv Azure",456,3996,"plug_in_hybrid","car","UK"),
+    ("bentley","Bentley","UK","bentley_continental_gtc3","Continental GTC (3ª gen)","decapottabile",2019,2026,"4.0 V8 550cv",550,3996,"gasoline","car","UK"),
+    ("bentley","Bentley","UK","bentley_continental_gtc3","Continental GTC (3ª gen)","decapottabile",2019,2026,"6.0 W12 635cv Speed",635,5950,"gasoline","car","UK"),
+    ("bentley","Bentley","UK","bentley_bentayga","Bentayga (1ª/2ª gen)","suv",2015,2026,"4.0 V8 550cv",550,3996,"gasoline","car","UK"),
+    ("bentley","Bentley","UK","bentley_bentayga","Bentayga (1ª/2ª gen)","suv",2015,2026,"6.0 W12 608cv Speed",608,5950,"gasoline","car","UK"),
+    ("bentley","Bentley","UK","bentley_bentayga","Bentayga (1ª/2ª gen)","suv",2021,2026,"3.0T PHEV 462cv Azure PHEV",462,2995,"plug_in_hybrid","car","UK"),
+    ("bentley","Bentley","UK","bentley_flying_spur3","Flying Spur (3ª gen)","berlina",2019,2026,"4.0 V8 550cv",550,3996,"gasoline","car","UK"),
+    ("bentley","Bentley","UK","bentley_flying_spur3","Flying Spur (3ª gen)","berlina",2019,2026,"6.0 W12 635cv Speed",635,5950,"gasoline","car","UK"),
+    ("bentley","Bentley","UK","bentley_flying_spur3","Flying Spur (3ª gen)","berlina",2021,2026,"3.0T PHEV 544cv Azure PHEV",544,2995,"plug_in_hybrid","car","UK"),
+
+    # ─── DS AUTOMOBILES ─────────────────────────────────────────────────────
+    ("ds_automobiles","DS Automobiles","France","ds_4_e_tense","DS 4 E-Tense / DS 4","hatchback",2021,2026,"1.2 PureTech 130cv",130,1199,"gasoline","car","France"),
+    ("ds_automobiles","DS Automobiles","France","ds_4_e_tense","DS 4 E-Tense / DS 4","hatchback",2021,2026,"1.6 E-Tense 225cv PHEV",225,1598,"plug_in_hybrid","car","France"),
+    ("ds_automobiles","DS Automobiles","France","ds_4_e_tense","DS 4 E-Tense / DS 4","hatchback",2021,2026,"1.5 BlueHDi 130cv",130,1499,"diesel","car","France"),
+    ("ds_automobiles","DS Automobiles","France","ds_9_e_tense","DS 9 E-Tense 4x4 360cv","berlina",2020,2026,"1.6T E-Tense 225cv PHEV FWD",225,1598,"plug_in_hybrid","car","France"),
+    ("ds_automobiles","DS Automobiles","France","ds_9_e_tense","DS 9 E-Tense 4x4 360cv","berlina",2020,2026,"1.6T E-Tense 360cv PHEV 4x4",360,1598,"plug_in_hybrid","car","France"),
+    ("ds_automobiles","DS Automobiles","France","ds_3_electric","DS 3 E-Tense (BEV 2021+)","hatchback",2021,2026,"Elettrico 156cv 50kWh",156,None,"electric","car","France"),
+    ("ds_automobiles","DS Automobiles","France","ds_3_electric","DS 3 E-Tense (BEV 2021+)","hatchback",2023,2026,"Elettrico 156cv 54kWh Bastille+",156,None,"electric","car","France"),
+
+    # ─── PAGANI ─────────────────────────────────────────────────────────────
+    ("pagani","Pagani","Italy","pag_huayra","Huayra / BC","supercar",2012,2022,"6.0 AMG BiTurbo V12 720cv Huayra",720,5980,"gasoline","car","Italy"),
+    ("pagani","Pagani","Italy","pag_huayra","Huayra / BC","supercar",2016,2022,"6.0 AMG BiTurbo V12 789cv BC",789,5980,"gasoline","car","Italy"),
+    ("pagani","Pagani","Italy","pag_huayra_roadster","Huayra Roadster / BC Roadster","supercar",2017,2023,"6.0 AMG BiTurbo V12 764cv Roadster",764,5980,"gasoline","car","Italy"),
+    ("pagani","Pagani","Italy","pag_utopia","Utopia (2023+)","supercar",2023,2026,"6.0 AMG BiTurbo V12 864cv",864,5980,"gasoline","car","Italy"),
+    ("pagani","Pagani","Italy","pag_huayra_r","Huayra R (pista)","supercar",2022,2026,"6.0 NA V12 850cv naturally aspirated",850,5980,"gasoline","car","Italy"),
+    ("pagani","Pagani","Italy","pag_zonda_f","Zonda F / F Clubsport","supercar",2005,2009,"7.3 AMG V12 602cv F",602,7291,"gasoline","car","Italy"),
+
+    # ─── NIO ────────────────────────────────────────────────────────────────
+    ("nio","NIO","China","nio_et7","ET7 (berlina BEV)","berlina",2022,2026,"Elettrico AWD 644cv 100kWh",644,None,"electric","car","China"),
+    ("nio","NIO","China","nio_et7","ET7 (berlina BEV)","berlina",2022,2026,"Elettrico AWD 644cv 75kWh",644,None,"electric","car","China"),
+    ("nio","NIO","China","nio_et5","ET5 / ET5 Touring (BEV)","berlina",2022,2026,"Elettrico AWD 480cv 75kWh",480,None,"electric","car","China"),
+    ("nio","NIO","China","nio_et5","ET5 / ET5 Touring (BEV)","berlina",2022,2026,"Elettrico AWD 480cv 100kWh",480,None,"electric","car","China"),
+    ("nio","NIO","China","nio_es6","ES6 (SUV — 2ª gen 2023+)","suv",2023,2026,"Elettrico AWD 489cv Standard Range",489,None,"electric","car","China"),
+    ("nio","NIO","China","nio_es6","ES6 (SUV — 2ª gen 2023+)","suv",2023,2026,"Elettrico AWD 489cv Long Range 100kWh",489,None,"electric","car","China"),
+    ("nio","NIO","China","nio_es8","ES8 (SUV 6/7 posti)","suv",2018,2026,"Elettrico AWD 544cv 100kWh",544,None,"electric","car","China"),
+    ("nio","NIO","China","nio_ep9","EP9 (hypercar BEV)","supercar",2016,2020,"Elettrico AWD 1361cv",1361,None,"electric","car","China"),
+]
+
+def fmt(v):
+    if v is None:
+        return "NULL"
+    if isinstance(v, str):
+        return "'" + v.replace("'", "''") + "'"
+    return str(v)
+
+header = """-- {n} righe da inserire
+INSERT INTO vehicle_specs
+  (id, brand_id, brand_name, brand_country, model_id, model_name, body_type, year_start, year_end, engine_name, hp, cc, fuel_type, vehicle_type, region)
+VALUES""".format(n=len(rows))
+
+lines = []
+for i, r in enumerate(rows):
+    (brand_id, brand_name, brand_country, model_id, model_name, body_type,
+     year_start, year_end, engine_name, hp, cc, fuel_type, vehicle_type, region) = r
+    sep = "," if i < len(rows) - 1 else ""
+    line = (
+        f"  (gen_random_uuid(), {fmt(brand_id)}, {fmt(brand_name)}, {fmt(brand_country)}, "
+        f"{fmt(model_id)}, {fmt(model_name)}, {fmt(body_type)}, "
+        f"{year_start}, {year_end}, {fmt(engine_name)}, "
+        f"{hp}, {fmt(cc)}, {fmt(fuel_type)}, {fmt(vehicle_type)}, {fmt(region)}){sep}"
+    )
+    lines.append(line)
+
+print(header)
+print("\n".join(lines))
+print("\nON CONFLICT DO NOTHING;")
+print(f"\n-- Fine: {len(rows)} motorizzazioni — batch 5")
