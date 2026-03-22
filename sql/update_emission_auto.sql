@@ -13,9 +13,47 @@ WHERE fuel_type IN ('electric', 'hybrid', 'hydrogen')
   AND vehicle_type NOT IN ('boat', 'airplane', 'aircraft');
 
 -- ============================================================
--- AUTOMOBILI (car, historic_car, supercar, racing, camper)
--- Standard Euro EU / JP / KR / resto mondo che segue EU
+-- AUTOMOBILI BENZINA (car, historic_car, supercar, racing, camper)
+-- EU / JP / KR / resto mondo che segue EU
 -- ============================================================
+UPDATE vehicle_specs SET emission_eu =
+  CASE
+    WHEN year_start < 1993  THEN 'pre-euro'
+    WHEN year_start < 1997  THEN 'euro1'
+    WHEN year_start < 2001  THEN 'euro2'
+    WHEN year_start < 2006  THEN 'euro3'
+    WHEN year_start < 2011  THEN 'euro4'
+    WHEN year_start < 2015  THEN 'euro5'
+    WHEN year_start < 2018  THEN 'euro6'
+    WHEN year_start < 2021  THEN 'euro6c'
+    ELSE                         'euro6d'
+  END
+WHERE vehicle_type IN ('car', 'historic_car', 'supercar', 'racing', 'camper')
+  AND fuel_type = 'gasoline'
+  AND region NOT IN ('US');
+
+-- ============================================================
+-- AUTOMOBILI DIESEL
+-- Scadenze anticipate vs benzina + euro6d-temp per NOx reale
+-- ============================================================
+UPDATE vehicle_specs SET emission_eu =
+  CASE
+    WHEN year_start < 1993  THEN 'pre-euro'
+    WHEN year_start < 1997  THEN 'euro1'
+    WHEN year_start < 2001  THEN 'euro2'
+    WHEN year_start < 2006  THEN 'euro3'
+    WHEN year_start < 2009  THEN 'euro4'    -- diesel Euro5 anticipato
+    WHEN year_start < 2014  THEN 'euro5'    -- diesel Euro6 anticipato
+    WHEN year_start < 2018  THEN 'euro6'
+    WHEN year_start < 2019  THEN 'euro6c'
+    WHEN year_start < 2021  THEN 'euro6d-temp'  -- RDE NOx reale per diesel
+    ELSE                         'euro6d'
+  END
+WHERE vehicle_type IN ('car', 'historic_car', 'supercar', 'racing', 'camper')
+  AND fuel_type = 'diesel'
+  AND region NOT IN ('US');
+
+-- Altri fuel (lpg, cng, e-fuel) → stesso percorso benzina
 UPDATE vehicle_specs SET emission_eu =
   CASE
     WHEN year_start < 1993  THEN 'pre-euro'
@@ -28,7 +66,7 @@ UPDATE vehicle_specs SET emission_eu =
     ELSE                         'euro6d'
   END
 WHERE vehicle_type IN ('car', 'historic_car', 'supercar', 'racing', 'camper')
-  AND fuel_type NOT IN ('electric', 'hybrid', 'hydrogen')
+  AND fuel_type NOT IN ('gasoline', 'diesel', 'electric', 'hybrid', 'hydrogen')
   AND region NOT IN ('US');
 
 -- ============================================================
