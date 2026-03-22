@@ -35,6 +35,9 @@ servers:
     description: Production
 
 x-tagGroups:
+  - name: Discovery
+    tags:
+      - Discovery
   - name: Catalog
     tags:
       - Catalog
@@ -43,12 +46,172 @@ x-tagGroups:
       - Specs
 
 tags:
+  - name: Discovery
+    description: No-param endpoints — ideal first call to explore the dataset
   - name: Catalog
     description: Browse available brands and models
   - name: Specs
     description: Fetch engine specs, filter by emission standard, LEZ compliance, and more
 
 paths:
+  /api/stats:
+    get:
+      operationId: getStats
+      summary: Get Stats
+      description: |
+        Returns dataset statistics: total engines, total brands, total models, and a breakdown by vehicle type.
+
+        **No parameters required** — great first call to explore the dataset size.
+      tags:
+        - Discovery
+      x-code-samples:
+        - lang: JavaScript
+          label: JS / fetch
+          source: |
+            const options = {
+              method: 'GET',
+              headers: {
+                'X-RapidAPI-Key': 'YOUR_RAPIDAPI_KEY',
+                'X-RapidAPI-Host': 'proxima-vehicle-specs.p.rapidapi.com'
+              }
+            };
+            fetch('https://proxima-vehicle-specs.p.rapidapi.com/api/stats', options)
+              .then(res => res.json())
+              .then(data => console.log(data));
+        - lang: Python
+          label: Python / requests
+          source: |
+            import requests
+
+            url = "https://proxima-vehicle-specs.p.rapidapi.com/api/stats"
+            headers = {
+                "X-RapidAPI-Key": "YOUR_RAPIDAPI_KEY",
+                "X-RapidAPI-Host": "proxima-vehicle-specs.p.rapidapi.com"
+            }
+            response = requests.get(url, headers=headers)
+            data = response.json()
+            print(f"Total engines: {data['total_engines']}")
+            print(f"Total brands:  {data['total_brands']}")
+            print(f"Total models:  {data['total_models']}")
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X GET \
+              'https://proxima-vehicle-specs.p.rapidapi.com/api/stats' \
+              -H 'X-RapidAPI-Key: YOUR_RAPIDAPI_KEY' \
+              -H 'X-RapidAPI-Host: proxima-vehicle-specs.p.rapidapi.com'
+      responses:
+        '200':
+          description: Dataset statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total_engines:
+                    type: integer
+                    example: 15011
+                  total_brands:
+                    type: integer
+                    example: 112
+                  total_models:
+                    type: integer
+                    example: 1034
+                  by_vehicle_type:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        vehicle_type:
+                          type: string
+                          example: car
+                        engine_count:
+                          type: integer
+                          example: 9780
+              example:
+                total_engines: 15011
+                total_brands: 112
+                total_models: 1034
+                by_vehicle_type:
+                  - vehicle_type: car
+                    engine_count: 9780
+                  - vehicle_type: motorcycle
+                    engine_count: 1316
+                  - vehicle_type: truck
+                    engine_count: 820
+        '500':
+          description: Server error
+
+  /api/vehicle-types:
+    get:
+      operationId: getVehicleTypes
+      summary: Get Vehicle Types
+      description: |
+        Returns all distinct vehicle types available in the dataset, with engine count for each.
+
+        **No parameters required** — use the returned values as valid inputs for the `vehicle_type` param in other endpoints.
+      tags:
+        - Discovery
+      x-code-samples:
+        - lang: JavaScript
+          label: JS / fetch
+          source: |
+            const options = {
+              method: 'GET',
+              headers: {
+                'X-RapidAPI-Key': 'YOUR_RAPIDAPI_KEY',
+                'X-RapidAPI-Host': 'proxima-vehicle-specs.p.rapidapi.com'
+              }
+            };
+            fetch('https://proxima-vehicle-specs.p.rapidapi.com/api/vehicle-types', options)
+              .then(res => res.json())
+              .then(types => types.forEach(t => console.log(t.vehicle_type, t.engine_count)));
+        - lang: Python
+          label: Python / requests
+          source: |
+            import requests
+
+            url = "https://proxima-vehicle-specs.p.rapidapi.com/api/vehicle-types"
+            headers = {
+                "X-RapidAPI-Key": "YOUR_RAPIDAPI_KEY",
+                "X-RapidAPI-Host": "proxima-vehicle-specs.p.rapidapi.com"
+            }
+            response = requests.get(url, headers=headers)
+            for t in response.json():
+                print(f"{t['vehicle_type']}: {t['engine_count']} engines")
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X GET \
+              'https://proxima-vehicle-specs.p.rapidapi.com/api/vehicle-types' \
+              -H 'X-RapidAPI-Key: YOUR_RAPIDAPI_KEY' \
+              -H 'X-RapidAPI-Host: proxima-vehicle-specs.p.rapidapi.com'
+      responses:
+        '200':
+          description: List of vehicle types with engine counts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    vehicle_type:
+                      type: string
+                      example: car
+                    engine_count:
+                      type: integer
+                      example: 9780
+              example:
+                - vehicle_type: car
+                  engine_count: 9780
+                - vehicle_type: motorcycle
+                  engine_count: 1316
+                - vehicle_type: truck
+                  engine_count: 820
+        '500':
+          description: Server error
+
   /api/brands:
     get:
       operationId: getBrands

@@ -31,6 +31,36 @@ RapidAPI host: `proxima-vehicle-specs.p.rapidapi.com`
 
 ## Endpoints
 
+### `GET /api/stats`
+Returns total engines, brands, models, and a breakdown by vehicle type. **No params needed** — perfect first call.
+
+```bash
+curl 'https://carspecs.proxima-suite.com/api/stats'
+```
+
+```json
+{
+  "total_engines": 15011,
+  "total_brands": 112,
+  "total_models": 1034,
+  "by_vehicle_type": [
+    { "vehicle_type": "car", "engine_count": 9780 },
+    { "vehicle_type": "motorcycle", "engine_count": 1316 }
+  ]
+}
+```
+
+---
+
+### `GET /api/vehicle-types`
+Returns all distinct vehicle types with engine count. **No params needed** — use the returned values as valid `vehicle_type` inputs for other endpoints.
+
+```bash
+curl 'https://carspecs.proxima-suite.com/api/vehicle-types'
+```
+
+---
+
 ### `GET /api/brands`
 Returns all available brands, optionally filtered by vehicle type.
 
