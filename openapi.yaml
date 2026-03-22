@@ -494,11 +494,6 @@ paths:
         Supports filtering by vehicle type, EU emission standard, and LEZ compliance.
 
         **Power filters:**
-        - `emission_eu=euro6` → only Euro 6 engines (easiest London ULEZ / Milan ZTL pass)
-        - `is_lez_compliant=true` → pre-filtered LEZ/ULEZ compliant results
-        - `vehicle_type=motorcycle` → scope search to a specific vehicle category
-
-        **Power filters:**
         - `hp_min=200&hp_max=500` → engines between 200 and 500hp
         - `fuel_type=electric` → only electric engines
         - `emission_eu=euro6` → only Euro 6 engines (easiest London ULEZ / Milan ZTL pass)
