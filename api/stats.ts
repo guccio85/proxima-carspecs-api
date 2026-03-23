@@ -15,21 +15,35 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const supabase = getSupabase();
 
-  const { data, error } = await supabase
+  // Fetch total count
+  const { count: totalEngines, error: countError } = await supabase
     .from('vehicle_specs')
-    .select('vehicle_type, brand_id, model_id', { count: 'exact' });
+    .select('*', { count: 'exact', head: true });
 
-  if (error) return res.status(500).json({ error: error.message });
+  if (countError) return res.status(500).json({ error: countError.message });
 
-  const rows = data ?? [];
+  // Fetch brands + models distinct counts
+  const { data: brandData, error: brandError } = await supabase
+    .from('vehicle_specs')
+    .select('brand_id, model_id')
+    .limit(50000);
 
-  const totalEngines = rows.length;
+  if (brandError) return res.status(500).json({ error: brandError.message });
+
+  const rows = brandData ?? [];
   const brands = new Set(rows.map((r) => r.brand_id));
   const models = new Set(rows.map((r) => `${r.brand_id}::${r.model_id}`));
 
-  // breakdown by vehicle_type
+  // Fetch breakdown by vehicle_type
+  const { data: typeData, error: typeError } = await supabase
+    .from('vehicle_specs')
+    .select('vehicle_type')
+    .limit(50000);
+
+  if (typeError) return res.status(500).json({ error: typeError.message });
+
   const byType: Record<string, number> = {};
-  for (const row of rows) {
+  for (const row of typeData ?? []) {
     const t = row.vehicle_type ?? 'unknown';
     byType[t] = (byType[t] ?? 0) + 1;
   }
@@ -41,7 +55,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate=86400');
   return res.status(200).json({
-    total_engines: totalEngines,
+    total_engines: totalEngines ?? 0,
     total_brands: brands.size,
     total_models: models.size,
     by_vehicle_type: breakdown,
