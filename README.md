@@ -2,8 +2,10 @@
 
 > REST API with **15,000+ engine specifications** — cars, motorcycles, trucks, boats, aircraft, and more.
 
+[![RapidAPI](https://img.shields.io/badge/Subscribe%20on%20RapidAPI-0055DA?style=for-the-badge&logo=rapidapi&logoColor=white)](https://rapidapi.com/proximasuite/api/proxima-vehicle-specs)
+
 [![Live API](https://img.shields.io/badge/API-Live-00d4ff?style=flat-square)](https://carspecs.proxima-suite.com)
-[![RapidAPI](https://img.shields.io/badge/RapidAPI-Proxima%20Vehicle%20Specs-blue?style=flat-square)](https://rapidapi.com/proximasuite/api/proxima-vehicle-specs)
+[![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0-85EA2D?style=flat-square&logo=openapiinitiative&logoColor=black)](./openapi.yaml)
 [![Vercel](https://img.shields.io/badge/Deploy-Vercel-black?style=flat-square)](https://vercel.com)
 
 ---
@@ -113,12 +115,18 @@ Full-text search across brand, model, and engine name.
 |-------|----------|---------|
 | `q` | **Yes** | `bmw diesel` |
 | `vehicle_type` | No | `car` |
+| `fuel_type` | No | `petrol` / `diesel` / `electric` / `hybrid` |
+| `hp_min` | No | `200` |
+| `hp_max` | No | `500` |
 | `emission_eu` | No | `euro6` |
 | `is_lez_compliant` | No | `true` / `false` |
 | `limit` | No | `20` (default, max 100) |
 
 ```bash
-# Find LEZ-compliant Euro 6 BMW diesel engines
+# High-performance BMW petrol engines (200–500hp)
+curl 'https://carspecs.proxima-suite.com/api/search?q=bmw&fuel_type=petrol&hp_min=200&hp_max=500'
+
+# LEZ-compliant Euro 6 BMW diesel engines
 curl 'https://carspecs.proxima-suite.com/api/search?q=bmw+diesel&emission_eu=euro6&is_lez_compliant=true'
 ```
 
@@ -134,6 +142,18 @@ curl 'https://carspecs.proxima-suite.com/api/search?q=bmw+diesel&emission_eu=eur
 | Fleet management (filter by emission standard) | `/search?emission_eu=euro6` |
 | Garage / workshop vehicle lookup | `/engines` |
 | Aviation apps (ICAO type, MTOW) | `/engines?brand=boeing` |
+
+---
+
+## Available on RapidAPI
+
+Subscribe and test directly in your browser — no setup needed:
+
+**[→ Proxima Vehicle Specs on RapidAPI](https://rapidapi.com/proximasuite/api/proxima-vehicle-specs)**
+
+- Free tier available
+- Auto-generated code samples (JS, Python, PHP, Ruby, Go, and more)
+- Interactive playground for every endpoint
 
 ---
 
